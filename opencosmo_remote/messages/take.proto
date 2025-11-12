@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package opencosmo_remote.messages;
+
+enum TakeAt {
+  START = 0;
+  END = 1;
+  RANDOM = 2;
+}
+
+message TakeStatement {
+  uint64 n = 1;
+  TakeAt at = 2;
+}
+
+message TakeRangeStatement {
+  uint64 start = 1;
+  uint64 end = 2;
+}

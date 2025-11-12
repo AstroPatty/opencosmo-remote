@@ -1,0 +1,20 @@
+package opencosmo_remote.messages;
+
+import "opencosmo_remote/messages/select.proto";
+import "opencosmo_remote/messages/filter.proto";
+import "opencosmo_remote/messages/take.proto";
+
+
+
+message OpenCosmoQueryStage {
+  oneof query {
+    DatasetSelectStatement select = 10;
+    FilterStatement filter = 11;
+    TakeStatement take = 12;
+    TakeRangeStatement take_range = 13;
+
+  }
+}
+
+
+

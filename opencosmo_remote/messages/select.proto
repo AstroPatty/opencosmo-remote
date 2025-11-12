@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+
+package opencosmo_remote.messages;
+
+message DatasetSelectStatement {
+  repeated string columns = 1;
+}
+

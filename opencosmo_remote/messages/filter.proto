@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package opencosmo_remote.messages;
+
+enum FilterType {
+  GT = 0;
+  GTE = 1;
+  LT = 2;
+  LTE = 3;
+}
+
+message Filter {
+  string column = 1;
+  FilterType filter_type = 2;
+  float value = 3;
+}
+
+message FilterStatement {
+  repeated Filter filters = 1;
+}
