@@ -1,20 +1,35 @@
+syntax = "proto3";
 package opencosmo_remote.messages;
 
 import "opencosmo_remote/messages/select.proto";
 import "opencosmo_remote/messages/filter.proto";
 import "opencosmo_remote/messages/take.proto";
-
+import "opencosmo_remote/messages/open.proto";
+import "google/protobuf/empty.proto";
 
 
 message OpenCosmoQueryStage {
+  Token token = 1;
   oneof query {
     DatasetSelectStatement select = 10;
     FilterStatement filter = 11;
     TakeStatement take = 12;
     TakeRangeStatement take_range = 13;
-
   }
 }
 
+message QueryResponse {
+  string response = 1;
+}
+message OutputPath {
+  string path = 1;
+}
+message Token {
+  string uuid = 1;
+}
 
-
+service OpenCosmoQueryHandler {
+  rpc DoQueryStage(stream OpenCosmoQueryStage) returns (stream QueryResponse) {};
+  rpc Execute(Token) returns (OutputPath);
+  rpc OpenRemote(OpenStatement) returns (Token);
+}

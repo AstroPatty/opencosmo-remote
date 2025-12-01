@@ -1,0 +1,12 @@
+
+enum DataType {
+  HALO_PROPERTIES = 1;
+  HALO_PARTICLES = 2;
+  GALAXY_PROPERTIES = 3;
+  GALAXY_PARTICLES = 4;
+}
+
+message OpenStatement {
+  string dataset_name = 1;
+  repeated DataType dtypes = 2;
+}

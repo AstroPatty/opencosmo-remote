@@ -24,17 +24,17 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n$opencosmo_remote/messages/take.proto\x12\x19opencosmo_remote.messages\"I\n\rTakeStatement\x12\t\n\x01n\x18\x01 \x01(\x04\x12-\n\x02\x61t\x18\x02 \x01(\x0e\x32!.opencosmo_remote.messages.TakeAt\"0\n\x12TakeRangeStatement\x12\r\n\x05start\x18\x01 \x01(\x04\x12\x0b\n\x03\x65nd\x18\x02 \x01(\x04*(\n\x06TakeAt\x12\t\n\x05START\x10\x00\x12\x07\n\x03\x45ND\x10\x01\x12\n\n\x06RANDOM\x10\x02\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n$opencosmo_remote/messages/take.proto\x12\x19opencosmo_remote.messages\"\x81\x01\n\rTakeStatement\x12\t\n\x01n\x18\x01 \x01(\x04\x12;\n\x02\x61t\x18\x02 \x01(\x0e\x32/.opencosmo_remote.messages.TakeStatement.TakeAt\"(\n\x06TakeAt\x12\t\n\x05START\x10\x00\x12\x07\n\x03\x45ND\x10\x01\x12\n\n\x06RANDOM\x10\x02\"0\n\x12TakeRangeStatement\x12\r\n\x05start\x18\x01 \x01(\x04\x12\x0b\n\x03\x65nd\x18\x02 \x01(\x04\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'opencosmo_remote.messages.take_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_TAKEAT']._serialized_start=192
-  _globals['_TAKEAT']._serialized_end=232
-  _globals['_TAKESTATEMENT']._serialized_start=67
-  _globals['_TAKESTATEMENT']._serialized_end=140
-  _globals['_TAKERANGESTATEMENT']._serialized_start=142
-  _globals['_TAKERANGESTATEMENT']._serialized_end=190
+  _globals['_TAKESTATEMENT']._serialized_start=68
+  _globals['_TAKESTATEMENT']._serialized_end=197
+  _globals['_TAKESTATEMENT_TAKEAT']._serialized_start=157
+  _globals['_TAKESTATEMENT_TAKEAT']._serialized_end=197
+  _globals['_TAKERANGESTATEMENT']._serialized_start=199
+  _globals['_TAKERANGESTATEMENT']._serialized_end=247
 # @@protoc_insertion_point(module_scope)

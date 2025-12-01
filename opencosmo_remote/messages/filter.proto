@@ -9,12 +9,12 @@ enum FilterType {
   LTE = 3;
 }
 
-message Filter {
+message ColumnFilter {
   string column = 1;
   FilterType filter_type = 2;
   float value = 3;
 }
 
 message FilterStatement {
-  repeated Filter filters = 1;
+  repeated ColumnFilter filters = 1;
 }

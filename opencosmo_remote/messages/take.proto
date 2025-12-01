@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package opencosmo_remote.messages;
 
-enum TakeAt {
-  START = 0;
-  END = 1;
-  RANDOM = 2;
-}
-
 message TakeStatement {
+  enum TakeAt {
+    START = 0;
+    END = 1;
+    RANDOM = 2;
+  }
+
   uint64 n = 1;
   TakeAt at = 2;
 }
