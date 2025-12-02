@@ -29,7 +29,8 @@ message Token {
 }
 
 service OpenCosmoQueryHandler {
-  rpc DoQueryStage(stream OpenCosmoQueryStage) returns (stream QueryResponse) {};
+  rpc DoQueryStage(OpenCosmoQueryStage) returns (QueryResponse) {};
   rpc Execute(Token) returns (OutputPath);
   rpc OpenRemote(OpenStatement) returns (Token);
+  rpc Exit(google.protobuf.Empty) returns (google.protobuf.Empty);
 }

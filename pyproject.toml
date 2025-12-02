@@ -12,12 +12,13 @@ dependencies = [
     "click>=8.3.0",
     "grpcio>=1.76.0",
     "grpcio-tools>=1.76.0",
+    "mpi4py>=4.1.1",
     "opencosmo>=0.9.6",
     "protobuf>=6.33.0",
 ]
 
 [project.scripts]
-opencosmo-remote = "opencosmo_remote.register:cli"
+opencosmo-remote = "opencosmo_remote.cli:cli"
 
 [build-system]
 requires = ["hatchling"]

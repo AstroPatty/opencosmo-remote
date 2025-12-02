@@ -1,12 +1,22 @@
+syntax = "proto3";
 
 enum DataType {
-  HALO_PROPERTIES = 1;
-  HALO_PARTICLES = 2;
+  HALO_PROPERTIES = 0;
+  HALO_PARTICLES = 1;
+  HALO_PROFILES = 2;
   GALAXY_PROPERTIES = 3;
   GALAXY_PARTICLES = 4;
+  GALAXY_PROFILES = 5;
 }
 
 message OpenStatement {
   string dataset_name = 1;
   repeated DataType dtypes = 2;
 }
+
+message InternalOpenStatement {
+  string dataset_path = 1;
+  string uuid = 2;
+  repeated DataType dtypes = 3;
+}
+

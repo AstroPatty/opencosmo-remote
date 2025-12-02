@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import Optional
 from warnings import warn
 
+from opencosmo_remote.messages.open_pb2 import DataType
+
 """
 Basic organization of data is as follows:
 
@@ -40,15 +42,6 @@ class ProjectionType(Enum):
 class DatasetType(Enum):
     HALOS = "halos"
     MAPS = "maps"
-
-
-class DataType(Enum):
-    HALO_PROPERTIES = "halo_properties"
-    HALO_PARTICLES = "halo_particles"
-    SOD_PROPERTY_BINS = "sod_property_bins"
-    GALAXY_PROPERTIES = "galaxy_properties"
-    GALAXY_PARTICLES = "galaxy_particles"
-    GALAXY_PROFILES = "galaxy_profiles"
 
 
 DataTypePaths = dict[DataType, Path]  # dictionary of data types and paths
@@ -122,7 +115,7 @@ def get_halo_datatype_paths(path: Path, step_number: int):
             case "haloproperties":
                 output[DataType.HALO_PROPERTIES] = file[0]
             case "sodpropertybins":
-                output[DataType.SOD_PROPERTY_BINS] = file[0]
+                output[DataType.HALO_PROFILES] = file[0]
             case "galaxypropertybins":
                 output[DataType.GALAXY_PROFILES] = file[0]
 
@@ -203,6 +196,7 @@ def get_simulation_paths(
 def get_halo_paths(
     base_path: Path,
     step_numbers: Optional[int | list[int]] = None,
+    dtypes: Optional[list[str]] = None,
     lightcone: bool = False,
     flatten: bool = False,
 ) -> DatasetPaths | SimulationPaths:
@@ -223,8 +217,23 @@ def get_halo_paths(
             )
         output
     output = get_simulation_paths(base_path, DatasetType.HALOS, step_numbers, lightcone)
+
+    if dtypes is not None:
+        dtypes_to_get = list(map(lambda dt: getattr(DataType, dt), dtypes))
+        output = __filter_dtypes(output, dtypes_to_get)
+
     if flatten:
         return __flatten(output)
+    return output
+
+
+def __filter_dtypes(paths: dict, dtypes: list[int]):
+    output = {}
+    for name, item in paths.items():
+        if isinstance(item, Path) and name in dtypes:
+            output[name] = item
+        elif isinstance(item, dict):
+            output[name] = __filter_dtypes(item, dtypes)
     return output
 
 

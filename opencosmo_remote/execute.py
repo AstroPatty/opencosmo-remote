@@ -1,7 +1,6 @@
 import opencosmo as oc
 
 from opencosmo_remote import messages as m
-from opencosmo_remote.messages.filter_pb2 import FilterType
 
 
 def execute_message(query: m.OpenCosmoQueryStage, dataset: oc.Dataset) -> oc.Dataset:
@@ -26,13 +25,13 @@ def hydrate_filters(filter_stmt: m.FilterStatement) -> list:
     for stmt in filter_stmt.filters:
         column = oc.col(stmt.column)
         match stmt.filter_type:
-            case FilterType.GT:
+            case m.FilterType.GT:
                 output.append(column > stmt.value)
-            case FilterType.GTE:
+            case m.FilterType.GTE:
                 output.append(column >= stmt.value)
-            case FilterType.LT:
+            case m.FilterType.LT:
                 output.append(column < stmt.value)
-            case FilterType.LTE:
+            case m.FilterType.LTE:
                 output.append(column <= stmt.value)
     return output
 
