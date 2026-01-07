@@ -1,6 +1,4 @@
 # Byte-compiled / optimized / DLL files
-opencosmo_remote/messages/*.pyi
-opencosmo_remote/messages/*pb2*.py*
 .DS_Store
 
 __pycache__/

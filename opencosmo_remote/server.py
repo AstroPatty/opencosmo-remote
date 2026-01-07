@@ -10,7 +10,7 @@ from mpi4py import MPI
 from opencosmo_remote.commands import handle_message
 from opencosmo_remote.messages import query_pb2, query_pb2_grpc
 from opencosmo_remote.messages.open_pb2 import InternalOpenStatement
-from opencosmo_remote.messages.query_pb2 import Token
+from opencosmo_remote.messages.query_pb2 import CloseResponse, Token
 from opencosmo_remote.store import read
 
 
@@ -25,7 +25,7 @@ def start(root=0):
         server.start()
         server.wait_for_termination()
     else:
-        server = Server(comm)
+        server = FollowServer(comm)
         server.listen()
 
 
@@ -42,7 +42,8 @@ class CommandResult(TypedDict):
 
 class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
     """
-    Runs on rank 0, communicates with user
+    Runs on rank 0, communicates with user and then relays to
+    other ranks. Also participates
     """
 
     def __init__(self, *args, comm, server, **kwargs):
@@ -51,35 +52,10 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
         self.__server = server
         super().__init__(*args, **kwargs)
 
-    def execute(self, stmt, context, return_on_success: Callable):
-        self.__comm.bcast(stmt)
-
-        try:
-            new_datasets = handle_message(stmt, self.__datasets)
-            result: CommandResult = {
-                "status": CommandResultStatus.SUCCESS,
-                "msg": "",
-            }
-
-        except Exception as e:
-            result: CommandResult = {
-                "status": CommandResultStatus.FAIL,
-                "msg": str(e),
-            }
-        results = self.__comm.allgather(result)
-        failed = list(
-            filter(lambda r: r["status"] != CommandResultStatus.SUCCESS, results)
-        )
-        if not failed:
-            self.__datasets = new_datasets
-            res = return_on_success(self.__datasets)
-            return res
-
-        context.set_code(grpc.StatusCode.ABORTED)
-        context.set_details(f"One or more ranks failed: {failed[0]['msg']}")
-        return
-
     def OpenRemote(self, request, context: grpc.ServicerContext):
+        """
+        Open a dataset
+        """
         if len(self.__datasets) > 0:
             context.set_code(grpc.StatusCode.RESOURCE_EXHAUSTED)
             context.set_details("Currently, only one open dataset is allowed at a time")
@@ -91,32 +67,99 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
         msg = InternalOpenStatement(
             dataset_path=dataset_path, uuid=str(output_id), dtypes=request.dtypes
         )
-        return self.execute(msg, context, lambda _: token)
 
-    def DoQueryStage(self, request, context):
-        def success_callback(_):
-            return query_pb2.QueryResponse(response="success")
+        def make_response(datasets):
+            ds = datasets[token.uuid]
+            repr = str(ds)
+            return query_pb2.QueryResponse(new_token=token, message=repr)
 
-        return self.execute(request, context, success_callback)
+        return self.execute(msg, context, make_response)
+
+    def CloseRemote(self, token, context):
+        """
+        Close a given remote dataset. Currently we only allow one open
+        remote dataset at a time.
+        """
+        uuid = token.uuid
+        if uuid not in self.__datasets:
+            context.set_code(grpc.StatusCode.ABORTED)
+            context.set_details("Unknown token")
+
+        return self.execute(token, context, lambda _: CloseResponse(res="success"))
+        self.__comm.bcast(token)
+        self.__datasets.pop(uuid)
+        return CloseResponse(res="sucess")
 
     def Exit(self, *args, **kwargs):
+        """
+        Shut down the server.
+        """
         self.__comm.bcast("EXIT")
         self.__server.stop(0)
         return Empty()
 
+    def DoQueryStage(self, request, context):
+        """
+        This API endpoint handles all query requests.
+        """
 
-class Server:
+        def success_callback(datasets):
+            repr = str(datasets[request.token.uuid])
+            return query_pb2.QueryResponse(repr=repr)
+
+        return self.execute(request, context, success_callback)
+
+    def execute(self, stmt, context, return_on_success: Callable):
+        """
+        Handle a given request. This includes broadcasting it to the other ranks,
+        performing the action on this rank, and checking for errors.
+        """
+        self.__comm.bcast(stmt)
+
+        try:
+            new_datasets, response = handle_message(stmt, self.__datasets)
+            result: CommandResult = {
+                "status": CommandResultStatus.SUCCESS,
+                "response": response,
+            }
+
+        except Exception as e:
+            result: CommandResult = {
+                "status": CommandResultStatus.FAIL,
+                "msg": str(e),
+            }
+        results = self.__comm.allgather(result)
+        # All ranks know if any rank failed, and also fail.
+
+        failed = list(
+            filter(lambda r: r["status"] != CommandResultStatus.SUCCESS, results)
+        )
+        if not failed:
+            self.__datasets = new_datasets
+            return result["response"]
+            # Success!
+
+        context.set_code(grpc.StatusCode.ABORTED)
+        context.set_details(f"One or more ranks failed: {failed[0]['msg']}")
+        return
+
+
+class FollowServer:
     def __init__(self, comm):
+        """
+        Runs on all other ranks and handles commands relayed from the
+        point server.
+        """
         self.__comm = comm
         self.__datasets = {}
 
     def listen(self):
         while (msg := self.__comm.bcast(None, root=0)) != "EXIT":
             try:
-                new_handlers = handle_message(msg, self.__datasets)
+                new_handlers, response = handle_message(msg, self.__datasets)
                 result: CommandResult = {
                     "status": CommandResultStatus.SUCCESS,
-                    "msg": "",
+                    "response": response,
                 }
             except Exception as e:
                 result: CommandResult = {

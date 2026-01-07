@@ -218,7 +218,7 @@ def get_halo_paths(
         output
     output = get_simulation_paths(base_path, DatasetType.HALOS, step_numbers, lightcone)
 
-    if dtypes is not None:
+    if dtypes:
         dtypes_to_get = list(map(lambda dt: getattr(DataType, dt), dtypes))
         output = __filter_dtypes(output, dtypes_to_get)
 

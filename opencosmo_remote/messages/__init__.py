@@ -1,5 +1,6 @@
 from .filter_pb2 import FilterStatement, FilterType
-from .query_pb2 import OpenCosmoQueryStage
+from .open_pb2 import OpenStatement
+from .query_pb2 import OpenCosmoQueryStage, Token
 from .select_pb2 import DatasetSelectStatement
 from .take_pb2 import TakeRangeStatement, TakeStatement
 
@@ -10,4 +11,6 @@ __all__ = [
     "TakeStatement",
     "FilterStatement",
     "FilterType",
+    "OpenStatement",
+    "Token",
 ]

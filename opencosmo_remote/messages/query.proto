@@ -18,8 +18,29 @@ message OpenCosmoQueryStage {
   }
 }
 
+message DatasetSpecification {
+  uint64 length = 1;
+  repeated string columns = 2;
+  bool is_lightcone = 3;
+}
+
+message StructureCollectionSpecification {
+  uint64 length = 1;
+  repeated string datasets = 2;
+}
+
+
+message OpenCosmoDataSpecification {
+  oneof spec {
+    DatasetSpecification ds = 10;
+    StructureCollectionSpecification sc = 11;
+  }
+}
+
 message QueryResponse {
-  string response = 1;
+  OpenCosmoDataSpecification spec = 1;
+  string message = 2;
+  optional Token new_token = 3;
 }
 message OutputPath {
   string path = 1;
@@ -28,9 +49,20 @@ message Token {
   string uuid = 1;
 }
 
+message OpenResponse {
+  Token token = 1;
+  string repr = 2;
+}
+
+message CloseResponse {
+  string res = 1;
+}
+
+
 service OpenCosmoQueryHandler {
   rpc DoQueryStage(OpenCosmoQueryStage) returns (QueryResponse) {};
   rpc Execute(Token) returns (OutputPath);
-  rpc OpenRemote(OpenStatement) returns (Token);
+  rpc OpenRemote(OpenStatement) returns (QueryResponse);
+  rpc CloseRemote(Token) returns (CloseResponse);
   rpc Exit(google.protobuf.Empty) returns (google.protobuf.Empty);
 }
