@@ -8,24 +8,30 @@ from google.protobuf.empty_pb2 import Empty
 from mpi4py import MPI
 
 from opencosmo_remote.commands import handle_message
+from opencosmo_remote.config import (
+    OpenCosmoRemoteFollowerSettings,
+    OpenCosmoRemotePointSettings,
+    get_settings,
+)
 from opencosmo_remote.messages import query_pb2, query_pb2_grpc
 from opencosmo_remote.messages.open_pb2 import InternalOpenStatement
 from opencosmo_remote.messages.query_pb2 import CloseResponse, Token
 from opencosmo_remote.store import read
 
 
-def start(root=0):
+def start(root=0, **kwargs):
     comm = MPI.COMM_WORLD.Dup()
+    settings = get_settings(comm, root, **kwargs)
     if comm.Get_rank() == root:
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
         query_pb2_grpc.add_OpenCosmoQueryHandlerServicer_to_server(
-            PointServer(comm=comm, server=server), server
+            PointServer(comm=comm, server=server, settings=settings), server
         )
-        server.add_insecure_port("[::]:50051")
+        server.add_insecure_port(f"[::]:{settings.port}")
         server.start()
         server.wait_for_termination()
     else:
-        server = FollowServer(comm)
+        server = FollowServer(comm, settings=settings)
         server.listen()
 
 
@@ -46,10 +52,13 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
     other ranks. Also participates
     """
 
-    def __init__(self, *args, comm, server, **kwargs):
+    def __init__(
+        self, *args, comm, server, settings: OpenCosmoRemotePointSettings, **kwargs
+    ):
         self.__comm = comm
         self.__datasets = {}
         self.__server = server
+        self.__settings = settings
         super().__init__(*args, **kwargs)
 
     def OpenRemote(self, request, context: grpc.ServicerContext):
@@ -145,13 +154,14 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
 
 
 class FollowServer:
-    def __init__(self, comm):
+    def __init__(self, comm, settings: OpenCosmoRemoteFollowerSettings):
         """
         Runs on all other ranks and handles commands relayed from the
         point server.
         """
         self.__comm = comm
         self.__datasets = {}
+        self.__settings = settings
 
     def listen(self):
         while (msg := self.__comm.bcast(None, root=0)) != "EXIT":
