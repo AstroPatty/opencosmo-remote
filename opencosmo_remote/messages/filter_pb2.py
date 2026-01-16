@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&opencosmo_remote/messages/filter.proto\x12\x19opencosmo_remote.messages\"i\n\x0c\x43olumnFilter\x12\x0e\n\x06\x63olumn\x18\x01 \x01(\t\x12:\n\x0b\x66ilter_type\x18\x02 \x01(\x0e\x32%.opencosmo_remote.messages.FilterType\x12\r\n\x05value\x18\x03 \x01(\x02\"K\n\x0f\x46ilterStatement\x12\x38\n\x07\x66ilters\x18\x01 \x03(\x0b\x32\'.opencosmo_remote.messages.ColumnFilter*.\n\nFilterType\x12\x06\n\x02GT\x10\x00\x12\x07\n\x03GTE\x10\x01\x12\x06\n\x02LT\x10\x02\x12\x07\n\x03LTE\x10\x03\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&opencosmo_remote/messages/filter.proto\x12\x19opencosmo_remote.messages\"i\n\x0c\x43olumnFilter\x12\x0e\n\x06\x63olumn\x18\x01 \x01(\t\x12:\n\x0b\x66ilter_type\x18\x02 \x01(\x0e\x32%.opencosmo_remote.messages.FilterType\x12\r\n\x05value\x18\x03 \x01(\x02\"K\n\x0f\x46ilterStatement\x12\x38\n\x07\x66ilters\x18\x01 \x03(\x0b\x32\'.opencosmo_remote.messages.ColumnFilter*I\n\nFilterType\x12\x06\n\x02GT\x10\x00\x12\x07\n\x03GTE\x10\x01\x12\x06\n\x02LT\x10\x02\x12\x07\n\x03LTE\x10\x03\x12\x06\n\x02\x45Q\x10\x04\x12\x07\n\x03NEQ\x10\x05\x12\x08\n\x04ISIN\x10\x06\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,7 +32,7 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'opencosmo_remote.messages.f
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_FILTERTYPE']._serialized_start=253
-  _globals['_FILTERTYPE']._serialized_end=299
+  _globals['_FILTERTYPE']._serialized_end=326
   _globals['_COLUMNFILTER']._serialized_start=69
   _globals['_COLUMNFILTER']._serialized_end=174
   _globals['_FILTERSTATEMENT']._serialized_start=176

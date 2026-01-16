@@ -13,10 +13,16 @@ class FilterType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     GTE: _ClassVar[FilterType]
     LT: _ClassVar[FilterType]
     LTE: _ClassVar[FilterType]
+    EQ: _ClassVar[FilterType]
+    NEQ: _ClassVar[FilterType]
+    ISIN: _ClassVar[FilterType]
 GT: FilterType
 GTE: FilterType
 LT: FilterType
 LTE: FilterType
+EQ: FilterType
+NEQ: FilterType
+ISIN: FilterType
 
 class ColumnFilter(_message.Message):
     __slots__ = ("column", "filter_type", "value")

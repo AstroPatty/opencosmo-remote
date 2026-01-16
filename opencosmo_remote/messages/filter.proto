@@ -7,6 +7,9 @@ enum FilterType {
   GTE = 1;
   LT = 2;
   LTE = 3;
+  EQ = 4;
+  NEQ = 5;
+  ISIN = 6;
 }
 
 message ColumnFilter {

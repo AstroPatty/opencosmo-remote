@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+enum operation {
+  ADD = 0;
+  SUBTRACT = 1;
+  MULTIPLY = 2;
+  DIVIDE = 3;
+  POW = 4;
+  EXP10 = 5;
+  LOG10 = 6;
+  SQRT = 7;
+}
+
+
+
+message DerivedColumn {
+  oneof lhs {
+    double lhs_scalar = 10;
+    DerivedColumn lhs_derived = 11;
+    string lhs_column = 12;
+  }
+
+  oneof rhs {
+    double rhs_scalar = 20;
+    DerivedColumn rhs_derived = 21;
+    string rhs_column = 22;
+  }
+  operation op = 3;
+};
+
+message WithNewColumnStatement {
+  map<string, DerivedColumn> columns = 1;
+};
+
+

@@ -1,7 +1,7 @@
 import operator as op
 
 import opencosmo as oc
-from opencosmo.dataset.column import ColumnMask
+from opencosmo.column.column import ColumnMask
 
 from opencosmo_remote.messages.filter_pb2 import (
     ColumnFilter,
@@ -10,7 +10,7 @@ from opencosmo_remote.messages.filter_pb2 import (
 )
 
 
-def hydrate_filters(filter_stmt: FilterStatement) -> list:
+def deserialize_filters(filter_stmt: FilterStatement) -> list:
     """
     Turn filter statement messages into OpenCosmo filters
     """
@@ -26,11 +26,15 @@ def hydrate_filters(filter_stmt: FilterStatement) -> list:
                 output.append(column < stmt.value)
             case FilterType.LTE:
                 output.append(column <= stmt.value)
+            case FilterType.EQ:
+                output.append(column == stmt.value)
+            case FilterType.NEQ:
+                output.append(column != stmt.value)
     return output
 
 
 def do_filter(filters: FilterStatement, dataset: oc.Dataset):
-    filter_objs = hydrate_filters(filters)
+    filter_objs = deserialize_filters(filters)
     return dataset.filter(*filter_objs)
 
 
@@ -40,10 +44,14 @@ def serialize_filter(mask: ColumnMask):
             operation = FilterType.GT
         case op.lt:
             operation = FilterType.LT
-        case op.gte:
+        case op.ge:
             operation = FilterType.GTE
-        case op.lte:
+        case op.le:
             operation = FilterType.LTE
+        case op.eq:
+            operation = FilterType.EQ
+        case op.ne:
+            operation = FilterType.NEQ
         case _:
             raise ValueError(
                 f"Operator {mask.operator} is not supported for remote datasets"

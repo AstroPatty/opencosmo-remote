@@ -13,11 +13,12 @@ dependencies = [
     "grpcio>=1.76.0",
     "grpcio-tools>=1.76.0",
     "mpi4py>=4.1.1",
-    "opencosmo>=0.9.6",
+    "opencosmo>=1.0.0rc3",
     "protobuf>=6.33.0",
     "pydantic>=2.12.4",
     "pydantic-settings>=2.12.0",
 ]
+
 
 [project.scripts]
 opencosmo-remote = "opencosmo_remote.cli:cli"
@@ -28,5 +29,6 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "mpi-pytest>=2025.7",
     "pytest>=9.0.1",
 ]

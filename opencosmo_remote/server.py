@@ -77,7 +77,7 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
             dataset_path=dataset_path, uuid=str(output_id), dtypes=request.dtypes
         )
 
-        def make_response(datasets):
+        def make_response(datasets, _response):
             ds = datasets[token.uuid]
             repr = str(ds)
             return query_pb2.QueryResponse(new_token=token, message=repr)
@@ -94,7 +94,9 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
             context.set_code(grpc.StatusCode.ABORTED)
             context.set_details("Unknown token")
 
-        return self.execute(token, context, lambda _: CloseResponse(res="success"))
+        return self.execute(
+            token, context, lambda _datasets, _response: CloseResponse(res="success")
+        )
         self.__comm.bcast(token)
         self.__datasets.pop(uuid)
         return CloseResponse(res="sucess")
@@ -112,9 +114,12 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
         This API endpoint handles all query requests.
         """
 
-        def success_callback(datasets):
+        def success_callback(datasets, response):
             repr = str(datasets[request.token.uuid])
-            return query_pb2.QueryResponse(repr=repr)
+            return query_pb2.QueryResponse(
+                spec=query_pb2.OpenCosmoDataSpecification(ds=response),
+                message=repr,
+            )
 
         return self.execute(request, context, success_callback)
 
@@ -145,7 +150,7 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
         )
         if not failed:
             self.__datasets = new_datasets
-            return result["response"]
+            return return_on_success(self.__datasets, response)
             # Success!
 
         context.set_code(grpc.StatusCode.ABORTED)

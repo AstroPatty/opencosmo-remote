@@ -5,6 +5,7 @@ import "opencosmo_remote/messages/select.proto";
 import "opencosmo_remote/messages/filter.proto";
 import "opencosmo_remote/messages/take.proto";
 import "opencosmo_remote/messages/open.proto";
+import "opencosmo_remote/messages/column.proto";
 import "google/protobuf/empty.proto";
 
 
@@ -15,6 +16,8 @@ message OpenCosmoQueryStage {
     FilterStatement filter = 11;
     TakeStatement take = 12;
     TakeRangeStatement take_range = 13;
+    WithNewColumnStatement new_columns = 14;
+    
   }
 }
 

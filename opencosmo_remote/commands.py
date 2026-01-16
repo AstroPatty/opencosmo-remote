@@ -34,5 +34,5 @@ def open_dataset(stmt: InternalOpenStatement, datasets: dict):
     spec = DatasetSpecification(
         length=len(dataset), columns=dataset.columns, is_lightcone=False
     )
-    resp = QueryResponse(spec=spec, message="", new_token=Token(stmt.uuid))
-    return datasets | {stmt.uuid: dataset}, spec
+    resp = QueryResponse(spec=spec, message="", new_token=Token(uuid=stmt.uuid))
+    return datasets | {stmt.uuid: dataset}, resp
