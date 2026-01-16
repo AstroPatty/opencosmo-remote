@@ -28,6 +28,12 @@ class OpenCosmoQueryStage(_message.Message):
     new_columns: _column_pb2.WithNewColumnStatement
     def __init__(self, token: _Optional[_Union[Token, _Mapping]] = ..., select: _Optional[_Union[_select_pb2.DatasetSelectStatement, _Mapping]] = ..., filter: _Optional[_Union[_filter_pb2.FilterStatement, _Mapping]] = ..., take: _Optional[_Union[_take_pb2.TakeStatement, _Mapping]] = ..., take_range: _Optional[_Union[_take_pb2.TakeRangeStatement, _Mapping]] = ..., new_columns: _Optional[_Union[_column_pb2.WithNewColumnStatement, _Mapping]] = ...) -> None: ...
 
+class WriteStatement(_message.Message):
+    __slots__ = ("token",)
+    TOKEN_FIELD_NUMBER: _ClassVar[int]
+    token: Token
+    def __init__(self, token: _Optional[_Union[Token, _Mapping]] = ...) -> None: ...
+
 class DatasetSpecification(_message.Message):
     __slots__ = ("length", "columns", "is_lightcone")
     LENGTH_FIELD_NUMBER: _ClassVar[int]

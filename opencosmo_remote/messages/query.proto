@@ -21,6 +21,10 @@ message OpenCosmoQueryStage {
   }
 }
 
+message WriteStatement {
+  Token token = 1;
+}
+
 message DatasetSpecification {
   uint64 length = 1;
   repeated string columns = 2;
@@ -66,6 +70,7 @@ service OpenCosmoQueryHandler {
   rpc DoQueryStage(OpenCosmoQueryStage) returns (QueryResponse) {};
   rpc Execute(Token) returns (OutputPath);
   rpc OpenRemote(OpenStatement) returns (QueryResponse);
+  rpc WriteData(WriteStatement) returns (OutputPath);
   rpc CloseRemote(Token) returns (CloseResponse);
   rpc Exit(google.protobuf.Empty) returns (google.protobuf.Empty);
 }

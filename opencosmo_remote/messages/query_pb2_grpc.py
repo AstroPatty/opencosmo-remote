@@ -51,6 +51,11 @@ class OpenCosmoQueryHandlerStub(object):
                 request_serializer=opencosmo__remote_dot_messages_dot_open__pb2.OpenStatement.SerializeToString,
                 response_deserializer=opencosmo__remote_dot_messages_dot_query__pb2.QueryResponse.FromString,
                 _registered_method=True)
+        self.WriteData = channel.unary_unary(
+                '/opencosmo_remote.messages.OpenCosmoQueryHandler/WriteData',
+                request_serializer=opencosmo__remote_dot_messages_dot_query__pb2.WriteStatement.SerializeToString,
+                response_deserializer=opencosmo__remote_dot_messages_dot_query__pb2.OutputPath.FromString,
+                _registered_method=True)
         self.CloseRemote = channel.unary_unary(
                 '/opencosmo_remote.messages.OpenCosmoQueryHandler/CloseRemote',
                 request_serializer=opencosmo__remote_dot_messages_dot_query__pb2.Token.SerializeToString,
@@ -79,6 +84,12 @@ class OpenCosmoQueryHandlerServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def OpenRemote(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def WriteData(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -113,6 +124,11 @@ def add_OpenCosmoQueryHandlerServicer_to_server(servicer, server):
                     servicer.OpenRemote,
                     request_deserializer=opencosmo__remote_dot_messages_dot_open__pb2.OpenStatement.FromString,
                     response_serializer=opencosmo__remote_dot_messages_dot_query__pb2.QueryResponse.SerializeToString,
+            ),
+            'WriteData': grpc.unary_unary_rpc_method_handler(
+                    servicer.WriteData,
+                    request_deserializer=opencosmo__remote_dot_messages_dot_query__pb2.WriteStatement.FromString,
+                    response_serializer=opencosmo__remote_dot_messages_dot_query__pb2.OutputPath.SerializeToString,
             ),
             'CloseRemote': grpc.unary_unary_rpc_method_handler(
                     servicer.CloseRemote,
@@ -206,6 +222,33 @@ class OpenCosmoQueryHandler(object):
             '/opencosmo_remote.messages.OpenCosmoQueryHandler/OpenRemote',
             opencosmo__remote_dot_messages_dot_open__pb2.OpenStatement.SerializeToString,
             opencosmo__remote_dot_messages_dot_query__pb2.QueryResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def WriteData(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/opencosmo_remote.messages.OpenCosmoQueryHandler/WriteData',
+            opencosmo__remote_dot_messages_dot_query__pb2.WriteStatement.SerializeToString,
+            opencosmo__remote_dot_messages_dot_query__pb2.OutputPath.FromString,
             options,
             channel_credentials,
             insecure,

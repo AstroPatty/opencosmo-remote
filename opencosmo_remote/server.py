@@ -1,3 +1,5 @@
+import atexit
+import shutil
 from concurrent import futures
 from enum import Enum
 from typing import Callable, TypedDict
@@ -60,6 +62,7 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
         self.__server = server
         self.__settings = settings
         super().__init__(*args, **kwargs)
+        atexit.register(lambda: shutil.rmtree(self.__settings.scratch_path))
 
     def OpenRemote(self, request, context: grpc.ServicerContext):
         """
@@ -123,6 +126,9 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
 
         return self.execute(request, context, success_callback)
 
+    def WriteData(self, request, context):
+        return self.execute(request, context, lambda _, path: path)
+
     def execute(self, stmt, context, return_on_success: Callable):
         """
         Handle a given request. This includes broadcasting it to the other ranks,
@@ -131,7 +137,9 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
         self.__comm.bcast(stmt)
 
         try:
-            new_datasets, response = handle_message(stmt, self.__datasets)
+            new_datasets, response = handle_message(
+                stmt, self.__datasets, self.__settings
+            )
             result: CommandResult = {
                 "status": CommandResultStatus.SUCCESS,
                 "response": response,
@@ -143,6 +151,7 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
                 "msg": str(e),
             }
         results = self.__comm.allgather(result)
+
         # All ranks know if any rank failed, and also fail.
 
         failed = list(
@@ -171,7 +180,9 @@ class FollowServer:
     def listen(self):
         while (msg := self.__comm.bcast(None, root=0)) != "EXIT":
             try:
-                new_handlers, response = handle_message(msg, self.__datasets)
+                new_handlers, response = handle_message(
+                    msg, self.__datasets, self.__settings
+                )
                 result: CommandResult = {
                     "status": CommandResultStatus.SUCCESS,
                     "response": response,

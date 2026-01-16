@@ -33,11 +33,6 @@ def deserialize_filters(filter_stmt: FilterStatement) -> list:
     return output
 
 
-def do_filter(filters: FilterStatement, dataset: oc.Dataset):
-    filter_objs = deserialize_filters(filters)
-    return dataset.filter(*filter_objs)
-
-
 def serialize_filter(mask: ColumnMask):
     match mask.operator:
         case op.gt:
@@ -60,3 +55,14 @@ def serialize_filter(mask: ColumnMask):
     return ColumnFilter(
         column=mask.column_name, filter_type=operation, value=mask.value
     )
+
+
+def serialize_filters(*filters: ColumnMask):
+    serialized_filters = map(serialize_filter, filters)
+    stmt = FilterStatement(filters=serialized_filters)
+    return stmt
+
+
+def do_filters(filters: FilterStatement, dataset: oc.Dataset):
+    filter_objs = deserialize_filters(filters)
+    return dataset.filter(*filter_objs)

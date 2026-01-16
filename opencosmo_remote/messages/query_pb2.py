@@ -30,7 +30,7 @@ from opencosmo_remote.messages import column_pb2 as opencosmo__remote_dot_messag
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n%opencosmo_remote/messages/query.proto\x12\x19opencosmo_remote.messages\x1a&opencosmo_remote/messages/select.proto\x1a&opencosmo_remote/messages/filter.proto\x1a$opencosmo_remote/messages/take.proto\x1a$opencosmo_remote/messages/open.proto\x1a&opencosmo_remote/messages/column.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x81\x03\n\x13OpenCosmoQueryStage\x12/\n\x05token\x18\x01 \x01(\x0b\x32 .opencosmo_remote.messages.Token\x12\x43\n\x06select\x18\n \x01(\x0b\x32\x31.opencosmo_remote.messages.DatasetSelectStatementH\x00\x12<\n\x06\x66ilter\x18\x0b \x01(\x0b\x32*.opencosmo_remote.messages.FilterStatementH\x00\x12\x38\n\x04take\x18\x0c \x01(\x0b\x32(.opencosmo_remote.messages.TakeStatementH\x00\x12\x43\n\ntake_range\x18\r \x01(\x0b\x32-.opencosmo_remote.messages.TakeRangeStatementH\x00\x12.\n\x0bnew_columns\x18\x0e \x01(\x0b\x32\x17.WithNewColumnStatementH\x00\x42\x07\n\x05query\"M\n\x14\x44\x61tasetSpecification\x12\x0e\n\x06length\x18\x01 \x01(\x04\x12\x0f\n\x07\x63olumns\x18\x02 \x03(\t\x12\x14\n\x0cis_lightcone\x18\x03 \x01(\x08\"D\n StructureCollectionSpecification\x12\x0e\n\x06length\x18\x01 \x01(\x04\x12\x10\n\x08\x64\x61tasets\x18\x02 \x03(\t\"\xae\x01\n\x1aOpenCosmoDataSpecification\x12=\n\x02\x64s\x18\n \x01(\x0b\x32/.opencosmo_remote.messages.DatasetSpecificationH\x00\x12I\n\x02sc\x18\x0b \x01(\x0b\x32;.opencosmo_remote.messages.StructureCollectionSpecificationH\x00\x42\x06\n\x04spec\"\xad\x01\n\rQueryResponse\x12\x43\n\x04spec\x18\x01 \x01(\x0b\x32\x35.opencosmo_remote.messages.OpenCosmoDataSpecification\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x38\n\tnew_token\x18\x03 \x01(\x0b\x32 .opencosmo_remote.messages.TokenH\x00\x88\x01\x01\x42\x0c\n\n_new_token\"\x1a\n\nOutputPath\x12\x0c\n\x04path\x18\x01 \x01(\t\"\x15\n\x05Token\x12\x0c\n\x04uuid\x18\x01 \x01(\t\"M\n\x0cOpenResponse\x12/\n\x05token\x18\x01 \x01(\x0b\x32 .opencosmo_remote.messages.Token\x12\x0c\n\x04repr\x18\x02 \x01(\t\"\x1c\n\rCloseResponse\x12\x0b\n\x03res\x18\x01 \x01(\t2\xb2\x03\n\x15OpenCosmoQueryHandler\x12j\n\x0c\x44oQueryStage\x12..opencosmo_remote.messages.OpenCosmoQueryStage\x1a(.opencosmo_remote.messages.QueryResponse\"\x00\x12R\n\x07\x45xecute\x12 .opencosmo_remote.messages.Token\x1a%.opencosmo_remote.messages.OutputPath\x12\x46\n\nOpenRemote\x12\x0e.OpenStatement\x1a(.opencosmo_remote.messages.QueryResponse\x12Y\n\x0b\x43loseRemote\x12 .opencosmo_remote.messages.Token\x1a(.opencosmo_remote.messages.CloseResponse\x12\x36\n\x04\x45xit\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Emptyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n%opencosmo_remote/messages/query.proto\x12\x19opencosmo_remote.messages\x1a&opencosmo_remote/messages/select.proto\x1a&opencosmo_remote/messages/filter.proto\x1a$opencosmo_remote/messages/take.proto\x1a$opencosmo_remote/messages/open.proto\x1a&opencosmo_remote/messages/column.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x81\x03\n\x13OpenCosmoQueryStage\x12/\n\x05token\x18\x01 \x01(\x0b\x32 .opencosmo_remote.messages.Token\x12\x43\n\x06select\x18\n \x01(\x0b\x32\x31.opencosmo_remote.messages.DatasetSelectStatementH\x00\x12<\n\x06\x66ilter\x18\x0b \x01(\x0b\x32*.opencosmo_remote.messages.FilterStatementH\x00\x12\x38\n\x04take\x18\x0c \x01(\x0b\x32(.opencosmo_remote.messages.TakeStatementH\x00\x12\x43\n\ntake_range\x18\r \x01(\x0b\x32-.opencosmo_remote.messages.TakeRangeStatementH\x00\x12.\n\x0bnew_columns\x18\x0e \x01(\x0b\x32\x17.WithNewColumnStatementH\x00\x42\x07\n\x05query\"A\n\x0eWriteStatement\x12/\n\x05token\x18\x01 \x01(\x0b\x32 .opencosmo_remote.messages.Token\"M\n\x14\x44\x61tasetSpecification\x12\x0e\n\x06length\x18\x01 \x01(\x04\x12\x0f\n\x07\x63olumns\x18\x02 \x03(\t\x12\x14\n\x0cis_lightcone\x18\x03 \x01(\x08\"D\n StructureCollectionSpecification\x12\x0e\n\x06length\x18\x01 \x01(\x04\x12\x10\n\x08\x64\x61tasets\x18\x02 \x03(\t\"\xae\x01\n\x1aOpenCosmoDataSpecification\x12=\n\x02\x64s\x18\n \x01(\x0b\x32/.opencosmo_remote.messages.DatasetSpecificationH\x00\x12I\n\x02sc\x18\x0b \x01(\x0b\x32;.opencosmo_remote.messages.StructureCollectionSpecificationH\x00\x42\x06\n\x04spec\"\xad\x01\n\rQueryResponse\x12\x43\n\x04spec\x18\x01 \x01(\x0b\x32\x35.opencosmo_remote.messages.OpenCosmoDataSpecification\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x38\n\tnew_token\x18\x03 \x01(\x0b\x32 .opencosmo_remote.messages.TokenH\x00\x88\x01\x01\x42\x0c\n\n_new_token\"\x1a\n\nOutputPath\x12\x0c\n\x04path\x18\x01 \x01(\t\"\x15\n\x05Token\x12\x0c\n\x04uuid\x18\x01 \x01(\t\"M\n\x0cOpenResponse\x12/\n\x05token\x18\x01 \x01(\x0b\x32 .opencosmo_remote.messages.Token\x12\x0c\n\x04repr\x18\x02 \x01(\t\"\x1c\n\rCloseResponse\x12\x0b\n\x03res\x18\x01 \x01(\t2\x91\x04\n\x15OpenCosmoQueryHandler\x12j\n\x0c\x44oQueryStage\x12..opencosmo_remote.messages.OpenCosmoQueryStage\x1a(.opencosmo_remote.messages.QueryResponse\"\x00\x12R\n\x07\x45xecute\x12 .opencosmo_remote.messages.Token\x1a%.opencosmo_remote.messages.OutputPath\x12\x46\n\nOpenRemote\x12\x0e.OpenStatement\x1a(.opencosmo_remote.messages.QueryResponse\x12]\n\tWriteData\x12).opencosmo_remote.messages.WriteStatement\x1a%.opencosmo_remote.messages.OutputPath\x12Y\n\x0b\x43loseRemote\x12 .opencosmo_remote.messages.Token\x1a(.opencosmo_remote.messages.CloseResponse\x12\x36\n\x04\x45xit\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Emptyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -39,22 +39,24 @@ if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_OPENCOSMOQUERYSTAGE']._serialized_start=294
   _globals['_OPENCOSMOQUERYSTAGE']._serialized_end=679
-  _globals['_DATASETSPECIFICATION']._serialized_start=681
-  _globals['_DATASETSPECIFICATION']._serialized_end=758
-  _globals['_STRUCTURECOLLECTIONSPECIFICATION']._serialized_start=760
-  _globals['_STRUCTURECOLLECTIONSPECIFICATION']._serialized_end=828
-  _globals['_OPENCOSMODATASPECIFICATION']._serialized_start=831
-  _globals['_OPENCOSMODATASPECIFICATION']._serialized_end=1005
-  _globals['_QUERYRESPONSE']._serialized_start=1008
-  _globals['_QUERYRESPONSE']._serialized_end=1181
-  _globals['_OUTPUTPATH']._serialized_start=1183
-  _globals['_OUTPUTPATH']._serialized_end=1209
-  _globals['_TOKEN']._serialized_start=1211
-  _globals['_TOKEN']._serialized_end=1232
-  _globals['_OPENRESPONSE']._serialized_start=1234
-  _globals['_OPENRESPONSE']._serialized_end=1311
-  _globals['_CLOSERESPONSE']._serialized_start=1313
-  _globals['_CLOSERESPONSE']._serialized_end=1341
-  _globals['_OPENCOSMOQUERYHANDLER']._serialized_start=1344
-  _globals['_OPENCOSMOQUERYHANDLER']._serialized_end=1778
+  _globals['_WRITESTATEMENT']._serialized_start=681
+  _globals['_WRITESTATEMENT']._serialized_end=746
+  _globals['_DATASETSPECIFICATION']._serialized_start=748
+  _globals['_DATASETSPECIFICATION']._serialized_end=825
+  _globals['_STRUCTURECOLLECTIONSPECIFICATION']._serialized_start=827
+  _globals['_STRUCTURECOLLECTIONSPECIFICATION']._serialized_end=895
+  _globals['_OPENCOSMODATASPECIFICATION']._serialized_start=898
+  _globals['_OPENCOSMODATASPECIFICATION']._serialized_end=1072
+  _globals['_QUERYRESPONSE']._serialized_start=1075
+  _globals['_QUERYRESPONSE']._serialized_end=1248
+  _globals['_OUTPUTPATH']._serialized_start=1250
+  _globals['_OUTPUTPATH']._serialized_end=1276
+  _globals['_TOKEN']._serialized_start=1278
+  _globals['_TOKEN']._serialized_end=1299
+  _globals['_OPENRESPONSE']._serialized_start=1301
+  _globals['_OPENRESPONSE']._serialized_end=1378
+  _globals['_CLOSERESPONSE']._serialized_start=1380
+  _globals['_CLOSERESPONSE']._serialized_end=1408
+  _globals['_OPENCOSMOQUERYHANDLER']._serialized_start=1411
+  _globals['_OPENCOSMOQUERYHANDLER']._serialized_end=1940
 # @@protoc_insertion_point(module_scope)
