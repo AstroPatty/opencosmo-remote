@@ -13,20 +13,22 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class OpenCosmoQueryStage(_message.Message):
-    __slots__ = ("token", "select", "filter", "take", "take_range", "new_columns")
+    __slots__ = ("token", "select", "filter", "take", "take_range", "new_columns", "sort_by")
     TOKEN_FIELD_NUMBER: _ClassVar[int]
     SELECT_FIELD_NUMBER: _ClassVar[int]
     FILTER_FIELD_NUMBER: _ClassVar[int]
     TAKE_FIELD_NUMBER: _ClassVar[int]
     TAKE_RANGE_FIELD_NUMBER: _ClassVar[int]
     NEW_COLUMNS_FIELD_NUMBER: _ClassVar[int]
+    SORT_BY_FIELD_NUMBER: _ClassVar[int]
     token: Token
     select: _select_pb2.DatasetSelectStatement
     filter: _filter_pb2.FilterStatement
     take: _take_pb2.TakeStatement
     take_range: _take_pb2.TakeRangeStatement
     new_columns: _column_pb2.WithNewColumnStatement
-    def __init__(self, token: _Optional[_Union[Token, _Mapping]] = ..., select: _Optional[_Union[_select_pb2.DatasetSelectStatement, _Mapping]] = ..., filter: _Optional[_Union[_filter_pb2.FilterStatement, _Mapping]] = ..., take: _Optional[_Union[_take_pb2.TakeStatement, _Mapping]] = ..., take_range: _Optional[_Union[_take_pb2.TakeRangeStatement, _Mapping]] = ..., new_columns: _Optional[_Union[_column_pb2.WithNewColumnStatement, _Mapping]] = ...) -> None: ...
+    sort_by: _column_pb2.SortByStatement
+    def __init__(self, token: _Optional[_Union[Token, _Mapping]] = ..., select: _Optional[_Union[_select_pb2.DatasetSelectStatement, _Mapping]] = ..., filter: _Optional[_Union[_filter_pb2.FilterStatement, _Mapping]] = ..., take: _Optional[_Union[_take_pb2.TakeStatement, _Mapping]] = ..., take_range: _Optional[_Union[_take_pb2.TakeRangeStatement, _Mapping]] = ..., new_columns: _Optional[_Union[_column_pb2.WithNewColumnStatement, _Mapping]] = ..., sort_by: _Optional[_Union[_column_pb2.SortByStatement, _Mapping]] = ...) -> None: ...
 
 class WriteStatement(_message.Message):
     __slots__ = ("token",)

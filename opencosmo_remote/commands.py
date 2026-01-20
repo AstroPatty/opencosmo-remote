@@ -8,6 +8,7 @@ from opencosmo_remote.messages.query_pb2 import (
     OpenCosmoDataSpecification,
     OutputPath,
     QueryResponse,
+    StructureCollectionSpecification,
     WriteStatement,
 )
 from opencosmo_remote.paths import get_halo_paths
@@ -54,13 +55,17 @@ def open_dataset(stmt: InternalOpenStatement, datasets: dict):
     paths = get_halo_paths(
         stmt.dataset_path, flatten=True, dtypes=dtypes, step_numbers=stmt.step_number
     )
-    print(paths)
     dataset = oc.open(*paths)
     if isinstance(dataset, oc.Dataset):
         spec_t = DatasetSpecification(
             length=len(dataset), columns=dataset.columns, is_lightcone=False
         )
         spec = OpenCosmoDataSpecification(ds=spec_t)
+    elif isinstance(dataset, oc.StructureCollection):
+        spec_t = StructureCollectionSpecification(
+            length=len(dataset), datasets=list(dataset.keys())
+        )
+        spec = OpenCosmoDataSpecification(sc=spec_t)
 
     resp = QueryResponse(spec=spec, message="", new_token=Token(uuid=stmt.uuid))
     return datasets | {stmt.uuid: dataset}, resp

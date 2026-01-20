@@ -45,7 +45,7 @@ class DerivedColumn(_message.Message):
     def __init__(self, lhs_scalar: _Optional[float] = ..., lhs_derived: _Optional[_Union[DerivedColumn, _Mapping]] = ..., lhs_column: _Optional[str] = ..., rhs_scalar: _Optional[float] = ..., rhs_derived: _Optional[_Union[DerivedColumn, _Mapping]] = ..., rhs_column: _Optional[str] = ..., op: _Optional[_Union[operation, str]] = ...) -> None: ...
 
 class WithNewColumnStatement(_message.Message):
-    __slots__ = ("columns",)
+    __slots__ = ("columns", "dataset")
     class ColumnsEntry(_message.Message):
         __slots__ = ("key", "value")
         KEY_FIELD_NUMBER: _ClassVar[int]
@@ -54,5 +54,15 @@ class WithNewColumnStatement(_message.Message):
         value: DerivedColumn
         def __init__(self, key: _Optional[str] = ..., value: _Optional[_Union[DerivedColumn, _Mapping]] = ...) -> None: ...
     COLUMNS_FIELD_NUMBER: _ClassVar[int]
+    DATASET_FIELD_NUMBER: _ClassVar[int]
     columns: _containers.MessageMap[str, DerivedColumn]
-    def __init__(self, columns: _Optional[_Mapping[str, DerivedColumn]] = ...) -> None: ...
+    dataset: str
+    def __init__(self, columns: _Optional[_Mapping[str, DerivedColumn]] = ..., dataset: _Optional[str] = ...) -> None: ...
+
+class SortByStatement(_message.Message):
+    __slots__ = ("column", "invert")
+    COLUMN_FIELD_NUMBER: _ClassVar[int]
+    INVERT_FIELD_NUMBER: _ClassVar[int]
+    column: str
+    invert: bool
+    def __init__(self, column: _Optional[str] = ..., invert: bool = ...) -> None: ...

@@ -17,6 +17,7 @@ message OpenCosmoQueryStage {
     TakeStatement take = 12;
     TakeRangeStatement take_range = 13;
     WithNewColumnStatement new_columns = 14;
+    SortByStatement sort_by = 15;
     
   }
 }

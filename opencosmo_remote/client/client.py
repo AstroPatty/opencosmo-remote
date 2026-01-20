@@ -8,7 +8,7 @@ from opencosmo.column.column import ColumnMask, DerivedColumn
 from opencosmo_remote.columns import serialize_derived_column
 from opencosmo_remote.filters import serialize_filters
 from opencosmo_remote.messages import OpenCosmoQueryStage, OpenStatement, Token
-from opencosmo_remote.messages.column_pb2 import WithNewColumnStatement
+from opencosmo_remote.messages.column_pb2 import SortByStatement, WithNewColumnStatement
 from opencosmo_remote.messages.query_pb2 import WriteStatement
 from opencosmo_remote.messages.query_pb2_grpc import OpenCosmoQueryHandlerStub
 from opencosmo_remote.messages.select_pb2 import DatasetSelectStatement
@@ -58,20 +58,26 @@ class RemoteDataset:
         self.__repr = send({"select": stmt}, self.__token, self.__stub)
         return self
 
+    def sort_by(self, column: str, invert: bool = False):
+        stmt = SortByStatement(column=column, invert=invert)
+        self.__repr = send({"sort_by": stmt}, self.__token, self.__stub)
+        return self
+
     def take(self, n: int, at: str = "random"):
         stmt = TakeStatement(n=n, at=at)
         self.__repr = send({"take": stmt}, self.__token, self.__stub)
+        return self
 
     def take_range(self, start: int, end: int):
         stmt = TakeRangeStatement(start, end)
         self.__repr = send({"take_range": stmt}, self.__token, self.__stub)
         return self
 
-    def with_new_columns(self, **columns: DerivedColumn):
+    def with_new_columns(self, dataset=None, **columns: DerivedColumn):
         serialized_columns = {
             name: serialize_derived_column(column) for name, column in columns.items()
         }
-        stmt = WithNewColumnStatement(columns=serialized_columns)
+        stmt = WithNewColumnStatement(columns=serialized_columns, dataset=dataset)
         self.__repr = send({"new_columns": stmt}, self.__token, self.__stub)
         return self
 

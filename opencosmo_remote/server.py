@@ -17,7 +17,11 @@ from opencosmo_remote.config import (
 )
 from opencosmo_remote.messages import query_pb2, query_pb2_grpc
 from opencosmo_remote.messages.open_pb2 import InternalOpenStatement
-from opencosmo_remote.messages.query_pb2 import CloseResponse, Token
+from opencosmo_remote.messages.query_pb2 import (
+    CloseResponse,
+    DatasetSpecification,
+    Token,
+)
 from opencosmo_remote.store import read
 
 
@@ -122,8 +126,13 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
 
         def success_callback(datasets, response):
             repr = str(datasets[request.token.uuid])
+            if isinstance(response, DatasetSpecification):
+                args = {"ds": response}
+            else:
+                args = {"sc": response}
+
             return query_pb2.QueryResponse(
-                spec=query_pb2.OpenCosmoDataSpecification(ds=response),
+                spec=query_pb2.OpenCosmoDataSpecification(**args),
                 message=repr,
             )
 
