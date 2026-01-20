@@ -51,7 +51,10 @@ def write_data(message, datasets, settings):
 
 def open_dataset(stmt: InternalOpenStatement, datasets: dict):
     dtypes = list(map(lambda i: DataType.Name(i), stmt.dtypes))
-    paths = get_halo_paths(stmt.dataset_path, flatten=True, dtypes=dtypes)
+    paths = get_halo_paths(
+        stmt.dataset_path, flatten=True, dtypes=dtypes, step_numbers=stmt.step_number
+    )
+    print(paths)
     dataset = oc.open(*paths)
     if isinstance(dataset, oc.Dataset):
         spec_t = DatasetSpecification(

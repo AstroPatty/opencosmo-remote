@@ -24,17 +24,17 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n$opencosmo_remote/messages/open.proto\"@\n\rOpenStatement\x12\x14\n\x0c\x64\x61taset_name\x18\x01 \x01(\t\x12\x19\n\x06\x64types\x18\x02 \x03(\x0e\x32\t.DataType\"V\n\x15InternalOpenStatement\x12\x14\n\x0c\x64\x61taset_path\x18\x01 \x01(\t\x12\x0c\n\x04uuid\x18\x02 \x01(\t\x12\x19\n\x06\x64types\x18\x03 \x03(\x0e\x32\t.DataType*\x88\x01\n\x08\x44\x61taType\x12\x13\n\x0fHALO_PROPERTIES\x10\x00\x12\x12\n\x0eHALO_PARTICLES\x10\x01\x12\x11\n\rHALO_PROFILES\x10\x02\x12\x15\n\x11GALAXY_PROPERTIES\x10\x03\x12\x14\n\x10GALAXY_PARTICLES\x10\x04\x12\x13\n\x0fGALAXY_PROFILES\x10\x05\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n$opencosmo_remote/messages/open.proto\"j\n\rOpenStatement\x12\x14\n\x0c\x64\x61taset_name\x18\x01 \x01(\t\x12\x18\n\x0bstep_number\x18\x02 \x01(\x05H\x00\x88\x01\x01\x12\x19\n\x06\x64types\x18\x03 \x03(\x0e\x32\t.DataTypeB\x0e\n\x0c_step_number\"\x80\x01\n\x15InternalOpenStatement\x12\x14\n\x0c\x64\x61taset_path\x18\x01 \x01(\t\x12\x0c\n\x04uuid\x18\x02 \x01(\t\x12\x18\n\x0bstep_number\x18\x03 \x01(\x05H\x00\x88\x01\x01\x12\x19\n\x06\x64types\x18\x04 \x03(\x0e\x32\t.DataTypeB\x0e\n\x0c_step_number*\x88\x01\n\x08\x44\x61taType\x12\x13\n\x0fHALO_PROPERTIES\x10\x00\x12\x12\n\x0eHALO_PARTICLES\x10\x01\x12\x11\n\rHALO_PROFILES\x10\x02\x12\x15\n\x11GALAXY_PROPERTIES\x10\x03\x12\x14\n\x10GALAXY_PARTICLES\x10\x04\x12\x13\n\x0fGALAXY_PROFILES\x10\x05\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'opencosmo_remote.messages.open_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_DATATYPE']._serialized_start=195
-  _globals['_DATATYPE']._serialized_end=331
+  _globals['_DATATYPE']._serialized_start=280
+  _globals['_DATATYPE']._serialized_end=416
   _globals['_OPENSTATEMENT']._serialized_start=40
-  _globals['_OPENSTATEMENT']._serialized_end=104
-  _globals['_INTERNALOPENSTATEMENT']._serialized_start=106
-  _globals['_INTERNALOPENSTATEMENT']._serialized_end=192
+  _globals['_OPENSTATEMENT']._serialized_end=146
+  _globals['_INTERNALOPENSTATEMENT']._serialized_start=149
+  _globals['_INTERNALOPENSTATEMENT']._serialized_end=277
 # @@protoc_insertion_point(module_scope)

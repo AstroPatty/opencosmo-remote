@@ -15,10 +15,14 @@ from opencosmo_remote.messages.select_pb2 import DatasetSelectStatement
 from opencosmo_remote.messages.take_pb2 import TakeRangeStatement, TakeStatement
 
 
-def open_remote(name: str, dtypes: Optional[list[str]] = []):
+def open_remote(
+    name: str, step_number: Optional[int] = None, dtypes: Optional[list[str]] = []
+):
     channel = grpc.insecure_channel("localhost:50051")
     stub = OpenCosmoQueryHandlerStub(channel)
-    open_statement = OpenStatement(dataset_name=name, dtypes=dtypes)
+    open_statement = OpenStatement(
+        dataset_name=name, dtypes=dtypes, step_number=step_number
+    )
     resp = stub.OpenRemote(open_statement)
 
     return RemoteDataset(stub, resp.new_token, resp.message)

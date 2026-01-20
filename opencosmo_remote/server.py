@@ -77,7 +77,10 @@ class PointServer(query_pb2_grpc.OpenCosmoQueryHandlerServicer):
         output_id = uuid1()
         token = Token(uuid=str(output_id))
         msg = InternalOpenStatement(
-            dataset_path=dataset_path, uuid=str(output_id), dtypes=request.dtypes
+            dataset_path=dataset_path,
+            uuid=str(output_id),
+            dtypes=request.dtypes,
+            step_number=request.step_number,
         )
 
         def make_response(datasets, _response):

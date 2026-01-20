@@ -23,19 +23,23 @@ GALAXY_PARTICLES: DataType
 GALAXY_PROFILES: DataType
 
 class OpenStatement(_message.Message):
-    __slots__ = ("dataset_name", "dtypes")
+    __slots__ = ("dataset_name", "step_number", "dtypes")
     DATASET_NAME_FIELD_NUMBER: _ClassVar[int]
+    STEP_NUMBER_FIELD_NUMBER: _ClassVar[int]
     DTYPES_FIELD_NUMBER: _ClassVar[int]
     dataset_name: str
+    step_number: int
     dtypes: _containers.RepeatedScalarFieldContainer[DataType]
-    def __init__(self, dataset_name: _Optional[str] = ..., dtypes: _Optional[_Iterable[_Union[DataType, str]]] = ...) -> None: ...
+    def __init__(self, dataset_name: _Optional[str] = ..., step_number: _Optional[int] = ..., dtypes: _Optional[_Iterable[_Union[DataType, str]]] = ...) -> None: ...
 
 class InternalOpenStatement(_message.Message):
-    __slots__ = ("dataset_path", "uuid", "dtypes")
+    __slots__ = ("dataset_path", "uuid", "step_number", "dtypes")
     DATASET_PATH_FIELD_NUMBER: _ClassVar[int]
     UUID_FIELD_NUMBER: _ClassVar[int]
+    STEP_NUMBER_FIELD_NUMBER: _ClassVar[int]
     DTYPES_FIELD_NUMBER: _ClassVar[int]
     dataset_path: str
     uuid: str
+    step_number: int
     dtypes: _containers.RepeatedScalarFieldContainer[DataType]
-    def __init__(self, dataset_path: _Optional[str] = ..., uuid: _Optional[str] = ..., dtypes: _Optional[_Iterable[_Union[DataType, str]]] = ...) -> None: ...
+    def __init__(self, dataset_path: _Optional[str] = ..., uuid: _Optional[str] = ..., step_number: _Optional[int] = ..., dtypes: _Optional[_Iterable[_Union[DataType, str]]] = ...) -> None: ...

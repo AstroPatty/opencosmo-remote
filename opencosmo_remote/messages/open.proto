@@ -11,12 +11,14 @@ enum DataType {
 
 message OpenStatement {
   string dataset_name = 1;
-  repeated DataType dtypes = 2;
+  optional int32 step_number = 2;
+  repeated DataType dtypes = 3;
 }
 
 message InternalOpenStatement {
   string dataset_path = 1;
   string uuid = 2;
-  repeated DataType dtypes = 3;
+  optional int32 step_number = 3;
+  repeated DataType dtypes = 4;
 }
 
